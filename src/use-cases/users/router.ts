@@ -1,13 +1,13 @@
 import { Elysia } from 'elysia'
 
-import { createUserService } from './createUser'
-import { getOneUserService } from './getOneUser'
-import { updateUserService } from './updateUser'
-import { deleteUserService } from './removeUser'
+import { createUserService } from './create-user'
+import { getOneUserService } from './get-one-user'
+import { updateUserService } from './update-user'
+import { deleteUserService } from './remove-user'
 
 import { jwt } from '@/middlewares/jwt'
 import { UserSchema } from '@/models/User'
-import { getUsersService } from './getUsers'
+import { getUsersService } from './get-users'
 
 export const userRouter = new Elysia({ prefix: '/users' })
   .post(
