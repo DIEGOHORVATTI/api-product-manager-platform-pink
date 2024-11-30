@@ -1,0 +1,33 @@
+{
+  "name": "bun",
+  "type": "module",
+  "version": "0.1.0",
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "pre-commit": "^1.2.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^0.8.0",
+    "@elysiajs/jwt": "^0.8.0",
+    "@elysiajs/swagger": "^0.8.5",
+    "@swc/cli": "^0.1.65",
+    "@swc/core": "^1.9.3",
+    "elysia": "^0.8.17",
+    "mongoose": "^8.8.3"
+  },
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts",
+    "build": "swc src -d dist --source-maps",
+    "lint:fix": "eslint --fix --ext .ts,.tsx .",
+    "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "update-version": "git add . && git push"
+  },
+  "pre-commit": [
+    "build",
+    "update-version"
+  ]
+}
