@@ -2,7 +2,7 @@ import { User, IUser } from '@/models/User'
 
 import { error } from 'elysia'
 
-export const authenticateUserService = async ({ email, password }: IUser) => {
+export const signService = async ({ email, password }: IUser) => {
   const user = await User.findOne({ email })
 
   if (!user) {

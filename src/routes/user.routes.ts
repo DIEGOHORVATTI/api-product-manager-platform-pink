@@ -1,13 +1,13 @@
 import { Elysia } from 'elysia'
 
-import { createUserService } from './create-user'
-import { getOneUserService } from './get-one-user'
-import { updateUserService } from './update-user'
-import { deleteUserService } from './remove-user'
+import { createUserService } from '@/services/users/create'
+import { getOneUserUseCase } from '@/services/users/get-one'
+import { updateUserService } from '@/services/users/update'
+import { deleteUserService } from '@/services/users/remove'
 
 import { jwt } from '@/middlewares/jwt'
 import { UserSchema } from '@/models/User'
-import { getUsersService } from './get-users'
+import { getAllUsersService } from '@/services/users/get-all'
 
 export const userRouter = new Elysia({ prefix: '/users' })
   .post(
@@ -21,12 +21,12 @@ export const userRouter = new Elysia({ prefix: '/users' })
   )
   .use(jwt)
   .get('/', async () => {
-    const users = await getUsersService()
+    const users = await getAllUsersService()
 
     return { message: 'Users found successfully', users }
   })
   .get('/:id', async ({ params: { id } }) => {
-    const user = await getOneUserService(id)
+    const user = await getOneUserUseCase(id)
 
     return { message: 'User found successfully', user }
   })

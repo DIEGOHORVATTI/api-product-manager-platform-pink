@@ -2,8 +2,8 @@ import { Elysia } from 'elysia'
 import { cors } from '@elysiajs/cors'
 import { swagger } from '@elysiajs/swagger'
 
-import { authRouter } from './use-cases/auth/router'
-import { userRouter } from './use-cases/users/router'
+import { authRouter } from '@/routes/auth.routes'
+import { userRouter } from '@/routes/user.routes'
 
 import { PORT } from '@/constants/config'
 

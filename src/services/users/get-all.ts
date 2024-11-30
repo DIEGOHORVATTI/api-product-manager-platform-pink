@@ -2,7 +2,7 @@ import { User } from '@/models/User'
 
 import { error } from 'elysia'
 
-export const getUsersService = async () => {
+export const getAllUsersService = async () => {
   const user = await User.find().select('-password')
 
   if (!user) {
