@@ -6,9 +6,9 @@
     "@elysiajs/cors": "^0.8.0",
     "@elysiajs/jwt": "^0.8.0",
     "@elysiajs/swagger": "^0.8.5",
-    "elysia": "^0.8.17",
     "@swc/cli": "^0.1.65",
     "@swc/core": "^1.9.3",
+    "elysia": "^0.8.17",
     "mongoose": "^8.8.3"
   },
   "devDependencies": {
