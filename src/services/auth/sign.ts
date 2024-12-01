@@ -1,6 +1,6 @@
-import { User, IUser } from '@/models/User'
-
 import { error } from 'elysia'
+
+import { User, IUser } from '@/models/User'
 
 export const signService = async ({ email, password }: IUser) => {
   const user = await User.findOne({ email })
@@ -9,9 +9,9 @@ export const signService = async ({ email, password }: IUser) => {
     throw error('Unauthorized', { error: 'Email not registered' })
   }
 
-  const passwordMatch = user.comparePassword?.(password)
+  const isValidPassword = user.comparePassword?.(password)
 
-  if (!passwordMatch) {
+  if (!isValidPassword) {
     throw error('Unauthorized', { error: 'Invalid credentials' })
   }
 

@@ -8,11 +8,16 @@
     "@elysiajs/swagger": "^0.8.5",
     "@swc/cli": "^0.1.65",
     "@swc/core": "^1.9.3",
+    "bcryptjs": "^2.4.3",
     "elysia": "^0.8.17",
-    "mongoose": "^8.8.3"
+    "mongoose": "^8.8.3",
+    "nodemailer": "^6.9.16",
+    "stripe": "^14.14.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/bun": "^1.1.14",
+    "@types/nodemailer": "^6.4.14",
     "pre-commit": "^1.2.2"
   },
   "peerDependencies": {

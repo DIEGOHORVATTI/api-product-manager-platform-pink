@@ -88,14 +88,16 @@ const SchemaModel = new _mongoose.Schema({
             'Pro'
         ],
         default: 'Free'
-    }
+    },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 }, {
     timestamps: true,
     collection: _config.collectionsData.User.collection
 });
 (0, _setdefaultsettingsschema.setDefaultSettingsSchema)(SchemaModel);
 SchemaModel.methods.comparePassword = function(password) {
-    return this.password === password;
+    return Bun.password.verify(password, this.password);
 };
 const User = _connectiondb.connectDB.model(_config.collectionsData.User.name, SchemaModel);
 

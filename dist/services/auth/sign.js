@@ -8,8 +8,8 @@ Object.defineProperty(exports, "signService", {
         return signService;
     }
 });
-const _User = require("../../models/User");
 const _elysia = require("elysia");
+const _User = require("../../models/User");
 const signService = async ({ email, password })=>{
     const user = await _User.User.findOne({
         email
@@ -19,8 +19,8 @@ const signService = async ({ email, password })=>{
             error: 'Email not registered'
         });
     }
-    const passwordMatch = user.comparePassword?.(password);
-    if (!passwordMatch) {
+    const isValidPassword = user.comparePassword?.(password);
+    if (!isValidPassword) {
         throw (0, _elysia.error)('Unauthorized', {
             error: 'Invalid credentials'
         });

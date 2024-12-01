@@ -8,16 +8,13 @@ Object.defineProperty(exports, "default", {
         return _default;
     }
 });
-const _elysia = /*#__PURE__*/ _interop_require_default(require("elysia"));
+const _elysia = require("elysia");
 const _User = require("../models/User");
-const _jwtsettings = require("../shared/jwt-settings");
 const _sign = require("../services/auth/sign");
-function _interop_require_default(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
-}
-const router = new _elysia.default().group('/auth', (server)=>server.use(_jwtsettings.jwtSettings).post('/login', async ({ body, jwt })=>{
+const _register = require("../services/auth/register");
+const _recoverpassword = require("../services/auth/recover-password");
+const _jwtsettings = require("../shared/jwt-settings");
+const router = new _elysia.Elysia().group('/auth', (server)=>server.use(_jwtsettings.jwtSettings).post('/login', async ({ body, jwt })=>{
         const user = await (0, _sign.signService)(body);
         const token = await jwt.sign({
             id: user.id
@@ -25,7 +22,24 @@ const router = new _elysia.default().group('/auth', (server)=>server.use(_jwtset
         return {
             token
         };
-    }, _User.UserSchema));
+    }, _User.UserSchema).post('/register', async ({ body })=>{
+        const user = await (0, _register.registerService)(body);
+        return {
+            message: 'User registered successfully',
+            user
+        };
+    }, _User.UserSchema).post('/recover-password', async ({ body: { email } })=>{
+        await (0, _recoverpassword.recoverPasswordService)(email);
+        return {
+            message: 'Recovery email sent successfully'
+        };
+    }, {
+        body: _elysia.t.Object({
+            email: _elysia.t.String({
+                format: 'email'
+            })
+        })
+    }));
 const _default = router;
 
 //# sourceMappingURL=auth.routes.js.map

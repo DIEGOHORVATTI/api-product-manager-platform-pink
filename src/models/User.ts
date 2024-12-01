@@ -25,6 +25,8 @@ export const UserSchema = {
 export type IUser = typeof UserSchema.body.static & {
   permissions?: string[]
   comparePassword?: (password: string) => Promise<boolean>
+  resetPasswordToken?: string
+  resetPasswordExpires?: Date
 }
 
 const SchemaModel = new Schema<IUser>(
@@ -66,7 +68,9 @@ const SchemaModel = new Schema<IUser>(
       type: String,
       enum: ['Free', 'Pro'],
       default: 'Free'
-    }
+    },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
   },
   {
     timestamps: true,
@@ -77,7 +81,7 @@ const SchemaModel = new Schema<IUser>(
 setDefaultSettingsSchema(SchemaModel)
 
 SchemaModel.methods.comparePassword = function (this: IUser, password: string) {
-  return this.password === password
+  return Bun.password.verify(password, this.password)
 }
 
 export const User = connectDB.model<IUser>(collectionsData.User.name, SchemaModel)

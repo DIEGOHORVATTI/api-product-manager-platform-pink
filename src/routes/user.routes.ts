@@ -1,10 +1,12 @@
 import { Elysia } from 'elysia'
 
-import { getAllUsersService } from '@/services/users/get-all'
-import { getOneUserUseCase } from '@/services/users/get-one'
-import { createUserService } from '@/services/users/create'
-import { updateUserService } from '@/services/users/update'
-import { deleteUserService } from '@/services/users/remove'
+import {
+  getAllUsersService,
+  getOneUserUseCase,
+  createUserService,
+  updateUserService,
+  deleteUserService
+} from '@/services/users'
 
 import { UserSchema } from '@/models/User'
 import { jwt } from '@/middlewares/jwt'
