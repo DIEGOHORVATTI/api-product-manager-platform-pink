@@ -16,7 +16,7 @@ const router = new Elysia().group('/users', server =>
     .post(
       '/',
       async ({ body }) => {
-        const user = await createUserService(body)
+        const { user } = await createUserService(body)
 
         return { message: 'Usuário criado com sucesso', user }
       },
@@ -24,19 +24,19 @@ const router = new Elysia().group('/users', server =>
     )
     .use(jwt)
     .get('/', async () => {
-      const users = await getAllUsersService()
+      const { users } = await getAllUsersService()
 
       return { message: 'Usuários encontrados com sucesso', users }
     })
     .get('/:id', async ({ params: { id } }) => {
-      const user = await getOneUserUseCase(id)
+      const { user } = await getOneUserUseCase(id)
 
       return { message: 'Usuário encontrado com sucesso', user }
     })
     .put(
       '/:id',
       async ({ params: { id }, body }) => {
-        const user = await updateUserService(id, body)
+        const { user } = await updateUserService(id, body)
 
         return { message: 'Usuário atualizado com sucesso', user }
       },

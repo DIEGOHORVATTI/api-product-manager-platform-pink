@@ -9,5 +9,5 @@ export const getOneUserUseCase = async (useId: string) => {
     error('Not Found', { error: 'Usuário não encontrado' })
   }
 
-  return user
+  return { user }
 }

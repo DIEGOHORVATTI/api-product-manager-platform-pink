@@ -7,11 +7,13 @@ export const createUserService = async (data: IUser) => {
     throw error('Conflict', { error: 'O usuário deste e-mail já existe' })
   }
 
-  const user = new User(data)
+  const newUser = new User(data)
 
-  await user.save().catch(() => {
+  await newUser.save().catch(() => {
     throw error('Internal Server Error', { error: 'Falha ao criar usuário' })
   })
 
-  return user
+  const { password, ...user } = newUser.toObject()
+
+  return { user }
 }

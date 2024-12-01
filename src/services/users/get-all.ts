@@ -4,11 +4,11 @@ import { error } from 'elysia'
 
 /* escluir isso depois */
 export const getAllUsersService = async () => {
-  const user = await User.find().select('-password')
+  const users = await User.find().select('-password')
 
-  if (!user) {
+  if (!users) {
     throw error('No Content', { error: 'Usuários não encontrados' })
   }
 
-  return user
+  return { users }
 }

@@ -11,8 +11,8 @@ Object.defineProperty(exports, "updateUserService", {
 const _User = require("../../models/User");
 const _elysia = require("elysia");
 const updateUserService = async (id, { email, password })=>{
-    const user = await _User.User.findById(id);
-    if (!user) {
+    const newUser = await _User.User.findById(id);
+    if (!newUser) {
         throw (0, _elysia.error)('Not Found', {
             error: 'Usuário não encontrado'
         });
@@ -27,17 +27,20 @@ const updateUserService = async (id, { email, password })=>{
                 error: 'Esse e-mail já está em uso'
             });
         }
-        user.email = email;
+        newUser.email = email;
     }
     if (password) {
-        user.password = password;
+        newUser.password = password;
     }
-    await user?.save().catch(()=>{
+    await newUser?.save().catch(()=>{
         throw (0, _elysia.error)('Internal Server Error', {
             error: 'Falha ao atualizar usuário'
         });
     });
-    return user;
+    const { password: _password, ...user } = newUser.toObject();
+    return {
+        user
+    };
 };
 
 //# sourceMappingURL=update.js.map

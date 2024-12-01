@@ -18,13 +18,16 @@ const createUserService = async (data)=>{
             error: 'O usuário deste e-mail já existe'
         });
     }
-    const user = new _User.User(data);
-    await user.save().catch(()=>{
+    const newUser = new _User.User(data);
+    await newUser.save().catch(()=>{
         throw (0, _elysia.error)('Internal Server Error', {
             error: 'Falha ao criar usuário'
         });
     });
-    return user;
+    const { password, ...user } = newUser.toObject();
+    return {
+        user
+    };
 };
 
 //# sourceMappingURL=create.js.map

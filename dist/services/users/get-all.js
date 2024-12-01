@@ -11,13 +11,15 @@ Object.defineProperty(exports, "getAllUsersService", {
 const _User = require("../../models/User");
 const _elysia = require("elysia");
 const getAllUsersService = async ()=>{
-    const user = await _User.User.find().select('-password');
-    if (!user) {
+    const users = await _User.User.find().select('-password');
+    if (!users) {
         throw (0, _elysia.error)('No Content', {
             error: 'Usuários não encontrados'
         });
     }
-    return user;
+    return {
+        users
+    };
 };
 
 //# sourceMappingURL=get-all.js.map

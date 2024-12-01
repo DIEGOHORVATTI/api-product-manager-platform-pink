@@ -3,9 +3,9 @@ import { IUser, User } from '@/models/User'
 import { error } from 'elysia'
 
 export const updateUserService = async (id: string, { email, password }: IUser) => {
-  const user = await User.findById(id)
+  const newUser = await User.findById(id)
 
-  if (!user) {
+  if (!newUser) {
     throw error('Not Found', { error: 'Usuário não encontrado' })
   }
 
@@ -18,16 +18,18 @@ export const updateUserService = async (id: string, { email, password }: IUser) 
       throw error('Conflict', { error: 'Esse e-mail já está em uso' })
     }
 
-    user.email = email
+    newUser.email = email
   }
 
   if (password) {
-    user.password = password
+    newUser.password = password
   }
 
-  await user?.save().catch(() => {
+  await newUser?.save().catch(() => {
     throw error('Internal Server Error', { error: 'Falha ao atualizar usuário' })
   })
 
-  return user
+  const { password: _password, ...user } = newUser.toObject()
+
+  return { user }
 }

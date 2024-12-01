@@ -17,7 +17,9 @@ const getOneUserUseCase = async (useId)=>{
             error: 'Usuário não encontrado'
         });
     }
-    return user;
+    return {
+        user
+    };
 };
 
 //# sourceMappingURL=get-one.js.map
