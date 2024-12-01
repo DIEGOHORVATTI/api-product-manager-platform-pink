@@ -13,8 +13,7 @@ export const UserSchema = {
   })
 }
 
-type IUserModel = typeof UserSchema.body.static
-export type IUser = IUserModel & {
+export type IUser = typeof UserSchema.body.static & {
   token?: string
   comparePassword?: (password: string) => boolean
 }
