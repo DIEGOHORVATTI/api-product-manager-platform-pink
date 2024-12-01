@@ -9,7 +9,7 @@ import { jwt } from '@/middlewares/jwt'
 import { UserSchema } from '@/models/User'
 import { getAllUsersService } from '@/services/users/get-all'
 
-export const userRouter = new Elysia({ prefix: '/users' })
+const userRouter = new Elysia({ prefix: '/users' })
   .post(
     '/',
     async ({ body }) => {
@@ -44,3 +44,5 @@ export const userRouter = new Elysia({ prefix: '/users' })
 
     return { message: 'User deleted successfully' }
   })
+
+export default userRouter

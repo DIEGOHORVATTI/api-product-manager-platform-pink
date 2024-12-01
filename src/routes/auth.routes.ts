@@ -5,7 +5,7 @@ import { UserSchema } from '@/models/User'
 import { jwtSettings } from '@/shared/jwt-settings'
 import { signService } from '@/services/auth/sign'
 
-export const authRouter = new Elysia({ prefix: '/auth' }).use(jwtSettings).post(
+const authRouter = new Elysia({ prefix: '/auth' }).use(jwtSettings).post(
   '/login',
   async ({ body, jwt }) => {
     const user = await signService(body)
@@ -16,3 +16,5 @@ export const authRouter = new Elysia({ prefix: '/auth' }).use(jwtSettings).post(
   },
   UserSchema
 )
+
+export default authRouter
