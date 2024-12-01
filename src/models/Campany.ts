@@ -1,8 +1,9 @@
 import { t as Type } from 'elysia'
 import { Schema } from 'mongoose'
+
 import { collectionsData } from '@/constants/config'
-import { setDefaultSettingsSchema } from '@/shared/set-default-settings-schema'
-import { connectDB } from '@/shared/connection-db'
+
+import { setDefaultSettingsSchema, connectDB } from '@/shared'
 
 export const CompanySchema = {
   body: Type.Object({

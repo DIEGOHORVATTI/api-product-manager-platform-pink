@@ -19,8 +19,7 @@ _export(exports, {
 const _elysia = require("elysia");
 const _mongoose = require("mongoose");
 const _config = require("../constants/config");
-const _setdefaultsettingsschema = require("../shared/set-default-settings-schema");
-const _connectiondb = require("../shared/connection-db");
+const _shared = require("../shared");
 const CompanySchema = {
     body: _elysia.t.Object({
         name: _elysia.t.String(),
@@ -45,7 +44,7 @@ const CompanySchemaModel = new _mongoose.Schema({
     timestamps: true,
     collection: _config.collectionsData.Company.collection
 });
-(0, _setdefaultsettingsschema.setDefaultSettingsSchema)(CompanySchemaModel);
-const Company = _connectiondb.connectDB.model(_config.collectionsData.Company.name, CompanySchemaModel);
+(0, _shared.setDefaultSettingsSchema)(CompanySchemaModel);
+const Company = _shared.connectDB.model(_config.collectionsData.Company.name, CompanySchemaModel);
 
 //# sourceMappingURL=Campany.js.map

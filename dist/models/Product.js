@@ -63,14 +63,6 @@ const SchemaModel = new _mongoose.Schema({
     code: {
         type: String,
         required: true
-    },
-    views: {
-        type: Number,
-        default: 0
-    },
-    clicks: {
-        type: Number,
-        default: 0
     }
 }, {
     timestamps: true,

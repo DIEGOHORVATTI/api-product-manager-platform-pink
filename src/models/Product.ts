@@ -19,10 +19,7 @@ export const ProductSchema = {
   })
 }
 
-export type IProduct = typeof ProductSchema.body.static & {
-  views: number
-  clicks: number
-}
+export type IProduct = typeof ProductSchema.body.static
 
 const SchemaModel = new Schema<IProduct>(
   {
@@ -52,14 +49,6 @@ const SchemaModel = new Schema<IProduct>(
     code: {
       type: String,
       required: true
-    },
-    views: {
-      type: Number,
-      default: 0
-    },
-    clicks: {
-      type: Number,
-      default: 0
     }
   },
   {
