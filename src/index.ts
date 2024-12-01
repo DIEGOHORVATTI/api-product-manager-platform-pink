@@ -1,6 +1,7 @@
 import { Elysia } from 'elysia'
 import { cors } from '@elysiajs/cors'
 import { swagger } from '@elysiajs/swagger'
+
 import { readdirSync } from 'fs'
 import { join } from 'path'
 
@@ -18,6 +19,7 @@ const server = new Elysia()
   for (const file of routeFiles) {
     if (file.endsWith('.routes.ts')) {
       const { default: router } = await import(join(routesPath, file))
+
       server.use(router)
     }
   }
