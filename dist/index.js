@@ -2,63 +2,20 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+Object.defineProperty(exports, "server", {
+    enumerable: true,
+    get: function() {
+        return server;
+    }
+});
 const _elysia = require("elysia");
 const _cors = require("@elysiajs/cors");
 const _swagger = require("@elysiajs/swagger");
-const _fs = require("fs");
-const _path = require("path");
 const _config = require("./constants/config");
-function _getRequireWildcardCache(nodeInterop) {
-    if (typeof WeakMap !== "function") return null;
-    var cacheBabelInterop = new WeakMap();
-    var cacheNodeInterop = new WeakMap();
-    return (_getRequireWildcardCache = function(nodeInterop) {
-        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
-    })(nodeInterop);
-}
-function _interop_require_wildcard(obj, nodeInterop) {
-    if (!nodeInterop && obj && obj.__esModule) {
-        return obj;
-    }
-    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
-        return {
-            default: obj
-        };
-    }
-    var cache = _getRequireWildcardCache(nodeInterop);
-    if (cache && cache.has(obj)) {
-        return cache.get(obj);
-    }
-    var newObj = {
-        __proto__: null
-    };
-    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-    for(var key in obj){
-        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
-            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-            if (desc && (desc.get || desc.set)) {
-                Object.defineProperty(newObj, key, desc);
-            } else {
-                newObj[key] = obj[key];
-            }
-        }
-    }
-    newObj.default = obj;
-    if (cache) {
-        cache.set(obj, newObj);
-    }
-    return newObj;
-}
-const routesPath = (0, _path.join)(__dirname, 'routes');
-const routeFiles = (0, _fs.readdirSync)(routesPath);
+const _router = require("./router");
 const server = new _elysia.Elysia().use((0, _cors.cors)()).use((0, _swagger.swagger)()).get('/', ()=>'API is running 🚀');
 (async ()=>{
-    for (const file of routeFiles){
-        if (file.endsWith('.routes.ts')) {
-            const { default: router } = await Promise.resolve((0, _path.join)(routesPath, file)).then((p)=>/*#__PURE__*/ _interop_require_wildcard(require(p)));
-            server.use(router);
-        }
-    }
+    await (0, _router.router)();
     server.listen(_config.PORT, ({ url })=>{
         console.log(`🦊 Elysia is running at ${url}`);
     });
