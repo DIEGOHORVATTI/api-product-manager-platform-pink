@@ -19,7 +19,7 @@ const signService = async ({ email, password })=>{
             error: 'Email not registered'
         });
     }
-    const passwordMatch = user?.comparePassword?.(password);
+    const passwordMatch = user.comparePassword?.(password);
     if (!passwordMatch) {
         throw (0, _elysia.error)('Unauthorized', {
             error: 'Invalid credentials'
