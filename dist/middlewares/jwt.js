@@ -21,24 +21,20 @@ const bearerTokenGuard = {
 const jwt = new _elysia.Elysia().use(_jwtsettings.jwtSettings).guard(bearerTokenGuard).derive(async ({ headers: { authorization }, jwt })=>{
     if (!authorization) {
         throw (0, _elysia.error)('Unauthorized', {
-            erros: [
-                'No token provided'
-            ]
+            error: 'No token provided'
         });
     }
     const token = authorization.slice('Bearer '.length);
     const decoded = await jwt.verify(token);
     if (!decoded) {
         throw (0, _elysia.error)('Unauthorized', {
-            erros: [
-                'Invalid token payload'
-            ]
+            error: 'Invalid token payload'
         });
     }
     const user = await _User.User.findById(decoded.id);
     if (!user) {
         throw (0, _elysia.error)('Unauthorized', {
-            erros: 'User not found'
+            error: 'User not found'
         });
     }
     return {

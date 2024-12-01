@@ -7,6 +7,7 @@ export const collectionsData = {
 
 export const HOST_API = process.env.HOST_API || ''
 
+export const MONGODB_DATABASE = process.env.MONGODB_DATABASE || ''
 export const MONGO_URL = process.env.MONGO_URI || ''
 
 export const PORT = process.env.PORT || 3000
@@ -20,3 +21,5 @@ export const JWT_REFRESH_EXP = process.env.JWT_REFRESH_EXP || '30d'
 export const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'refresh'
 
 export const JWT_REFRESH_NAME = process.env.JWT_REFRESH_NAME || 'refresh'
+
+export const NODE_ENV = process.env.NODE_ENV

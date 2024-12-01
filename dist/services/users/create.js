@@ -14,14 +14,18 @@ const createUserService = async ({ email, password })=>{
     if (await _User.User.findOne({
         email
     })) {
-        throw (0, _elysia.error)('Conflict', 'User of this email already exists');
+        throw (0, _elysia.error)('Conflict', {
+            error: 'User of this email already exists'
+        });
     }
     const user = new _User.User({
         email,
         password
     });
     await user.save().catch(()=>{
-        throw (0, _elysia.error)('Internal Server Error', 'Failed to create user');
+        throw (0, _elysia.error)('Internal Server Error', {
+            error: 'Failed to create user'
+        });
     });
     return user;
 };

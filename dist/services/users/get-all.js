@@ -13,7 +13,9 @@ const _elysia = require("elysia");
 const getAllUsersService = async ()=>{
     const user = await _User.User.find().select('-password');
     if (!user) {
-        throw (0, _elysia.error)('No Content', 'User not found');
+        throw (0, _elysia.error)('No Content', {
+            error: 'User not found'
+        });
     }
     return user;
 };

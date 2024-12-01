@@ -6,7 +6,7 @@ export const getAllUsersService = async () => {
   const user = await User.find().select('-password')
 
   if (!user) {
-    throw error('No Content', 'User not found')
+    throw error('No Content', { error: 'User not found' })
   }
 
   return user

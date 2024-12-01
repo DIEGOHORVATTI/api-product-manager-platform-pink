@@ -15,7 +15,9 @@ const deleteUserService = async (id)=>{
         _id: id
     });
     if (!domainExists) {
-        throw (0, _elysia.error)('Not Found', 'User not found');
+        throw (0, _elysia.error)('Not Found', {
+            error: 'User not found'
+        });
     }
     return _User.User.deleteOne({
         _id: id

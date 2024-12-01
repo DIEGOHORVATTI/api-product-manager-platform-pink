@@ -6,7 +6,7 @@ export const updateUserService = async (id: string, { email, password }: IUser) 
   const user = await User.findById(id)
 
   if (!user) {
-    throw error('Not Found', 'User not found')
+    throw error('Not Found', { error: 'User not found' })
   }
 
   if (email) {
@@ -15,7 +15,7 @@ export const updateUserService = async (id: string, { email, password }: IUser) 
     const isDifferentUser = existingUser?.id !== id
 
     if (isDifferentUser) {
-      throw error('Conflict', 'User of this email already exists')
+      throw error('Conflict', { error: 'User of this email already exists' })
     }
 
     user.email = email
@@ -26,7 +26,7 @@ export const updateUserService = async (id: string, { email, password }: IUser) 
   }
 
   await user?.save().catch(() => {
-    throw error('Internal Server Error', 'Failed to update user')
+    throw error('Internal Server Error', { error: 'Failed to update user' })
   })
 
   return user

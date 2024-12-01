@@ -13,7 +13,9 @@ const _elysia = require("elysia");
 const getOneUserUseCase = async (useId)=>{
     const user = await _User.User.findById(useId).select('-password');
     if (!user) {
-        (0, _elysia.error)(404, 'User not found');
+        (0, _elysia.error)('Not Found', {
+            error: 'User not found'
+        });
     }
     return user;
 };

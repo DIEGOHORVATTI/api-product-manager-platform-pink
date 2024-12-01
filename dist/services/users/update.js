@@ -13,7 +13,9 @@ const _elysia = require("elysia");
 const updateUserService = async (id, { email, password })=>{
     const user = await _User.User.findById(id);
     if (!user) {
-        throw (0, _elysia.error)('Not Found', 'User not found');
+        throw (0, _elysia.error)('Not Found', {
+            error: 'User not found'
+        });
     }
     if (email) {
         const existingUser = await _User.User.findOne({
@@ -21,7 +23,9 @@ const updateUserService = async (id, { email, password })=>{
         });
         const isDifferentUser = existingUser?.id !== id;
         if (isDifferentUser) {
-            throw (0, _elysia.error)('Conflict', 'User of this email already exists');
+            throw (0, _elysia.error)('Conflict', {
+                error: 'User of this email already exists'
+            });
         }
         user.email = email;
     }
@@ -29,7 +33,9 @@ const updateUserService = async (id, { email, password })=>{
         user.password = password;
     }
     await user?.save().catch(()=>{
-        throw (0, _elysia.error)('Internal Server Error', 'Failed to update user');
+        throw (0, _elysia.error)('Internal Server Error', {
+            error: 'Failed to update user'
+        });
     });
     return user;
 };
