@@ -16,7 +16,7 @@ const _remove = require("../services/users/remove");
 const _jwt = require("../middlewares/jwt");
 const _User = require("../models/User");
 const _getall = require("../services/users/get-all");
-const userRouter = new _elysia.Elysia({
+const router = new _elysia.Elysia({
     prefix: '/users'
 }).post('/', async ({ body })=>{
     const user = await (0, _create.createUserService)(body);
@@ -48,6 +48,6 @@ const userRouter = new _elysia.Elysia({
         message: 'User deleted successfully'
     };
 });
-const _default = userRouter;
+const _default = router;
 
 //# sourceMappingURL=user.routes.js.map

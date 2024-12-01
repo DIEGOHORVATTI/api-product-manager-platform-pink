@@ -12,7 +12,6 @@ const _elysia = /*#__PURE__*/ _interop_require_default(require("elysia"));
 const _User = require("../models/User");
 const _jwtsettings = require("../shared/jwt-settings");
 const _sign = require("../services/auth/sign");
-const _ = require("..");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -20,7 +19,7 @@ function _interop_require_default(obj) {
 }
 const router = new _elysia.default({
     prefix: '/auth'
-}).use(_.server).use(_jwtsettings.jwtSettings).post('/login', async ({ body, jwt })=>{
+}).use(_jwtsettings.jwtSettings).post('/login', async ({ body, jwt })=>{
     const user = await (0, _sign.signService)(body);
     const token = await jwt.sign({
         id: user?.id
