@@ -1,4 +1,4 @@
-import { Static, t } from 'elysia'
+import { t as Type } from 'elysia'
 
 import { Schema } from 'mongoose'
 import { collectionsData } from '@/constants/config'
@@ -7,14 +7,13 @@ import { setDefaultSettingsSchema } from '@/shared/set-default-settings-schema'
 import { connectDB } from '@/shared/connection-db'
 
 export const UserSchema = {
-  body: t.Object({
-    email: t.String({ format: 'email' }),
-    password: t.String({ minLength: 6, maxLength: 20, pattern: '^[a-zA-Z0-9]*$' })
+  body: Type.Object({
+    email: Type.String({ format: 'email' }),
+    password: Type.String({ minLength: 6, maxLength: 20, pattern: '^[a-zA-Z0-9]*$' })
   })
 }
 
-type IUserModel = Static<(typeof UserSchema)['body']>
-
+type IUserModel = typeof UserSchema.body.static
 export type IUser = IUserModel & {
   token?: string
   comparePassword?: (password: string) => boolean
