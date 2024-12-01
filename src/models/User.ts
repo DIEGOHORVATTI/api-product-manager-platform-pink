@@ -13,12 +13,14 @@ export const UserSchema = {
     email: Type.String({ format: 'email' }),
     password: Type.String({ minLength: 6 }),
     photo: Type.Optional(Type.String()),
-    company: Type.Array(
-      Type.Object({
-        id: Type.String(),
-        name: Type.String(),
-        cnpj: Type.String()
-      })
+    company: Type.Optional(
+      Type.Array(
+        Type.Object({
+          id: Type.String(),
+          name: Type.String(),
+          cnpj: Type.String()
+        })
+      )
     ),
     plan: Type.Enum({ Free: 'Free', Pro: 'Pro' })
   })
@@ -55,23 +57,24 @@ const SchemaModel = new Schema<IUser>(
       default: ['user']
     },
     photo: String,
-    company: [
-      {
-        id: {
-          type: Types.ObjectId,
-          required: true,
-          ref: collectionsData.Company.name
-        },
-        name: {
-          type: String,
-          required: true
-        },
-        cnpj: {
-          type: String,
-          required: true
+    company: {
+      type: [
+        {
+          id: {
+            type: String,
+            required: true
+          },
+          name: {
+            type: String,
+            required: true
+          },
+          cnpj: {
+            type: String,
+            required: true
+          }
         }
-      }
-    ],
+      ]
+    },
     plan: {
       type: String,
       enum: ['Free', 'Pro'],

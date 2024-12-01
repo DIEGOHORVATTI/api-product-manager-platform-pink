@@ -32,11 +32,11 @@ const UserSchema = {
             minLength: 6
         }),
         photo: _elysia.t.Optional(_elysia.t.String()),
-        company: _elysia.t.Array(_elysia.t.Object({
+        company: _elysia.t.Optional(_elysia.t.Array(_elysia.t.Object({
             id: _elysia.t.String(),
             name: _elysia.t.String(),
             cnpj: _elysia.t.String()
-        })),
+        }))),
         plan: _elysia.t.Enum({
             Free: 'Free',
             Pro: 'Pro'
@@ -70,23 +70,24 @@ const SchemaModel = new _mongoose.Schema({
         ]
     },
     photo: String,
-    company: [
-        {
-            id: {
-                type: _mongoose.Types.ObjectId,
-                required: true,
-                ref: _config.collectionsData.Company.name
-            },
-            name: {
-                type: String,
-                required: true
-            },
-            cnpj: {
-                type: String,
-                required: true
+    company: {
+        type: [
+            {
+                id: {
+                    type: String,
+                    required: true
+                },
+                name: {
+                    type: String,
+                    required: true
+                },
+                cnpj: {
+                    type: String,
+                    required: true
+                }
             }
-        }
-    ],
+        ]
+    },
     plan: {
         type: String,
         enum: [
