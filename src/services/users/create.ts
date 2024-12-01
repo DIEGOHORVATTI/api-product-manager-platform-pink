@@ -7,10 +7,6 @@ export const createUserService = async ({ email, password }: IUser) => {
     throw error('Conflict', 'User of this email already exists')
   }
 
-  console.log('kapa')
-
-  console.log({ email, password })
-
   const user = new User({ email, password })
 
   await user.save().catch(() => {

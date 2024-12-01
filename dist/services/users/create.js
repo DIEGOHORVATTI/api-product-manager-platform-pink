@@ -16,11 +16,6 @@ const createUserService = async ({ email, password })=>{
     })) {
         throw (0, _elysia.error)('Conflict', 'User of this email already exists');
     }
-    console.log('kapa');
-    console.log({
-        email,
-        password
-    });
     const user = new _User.User({
         email,
         password
