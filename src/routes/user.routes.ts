@@ -19,12 +19,15 @@ const router = new Elysia({ prefix: '/users' })
     },
     UserSchema
   )
-  .use(jwt)
   .get('/', async () => {
+    return { message: 'Users found successfully' }
+  })
+  .use(jwt)
+  /* .get('/', async () => {
     const users = await getAllUsersService()
 
     return { message: 'Users found successfully', users }
-  })
+  }) */
   .get('/:id', async ({ params: { id } }) => {
     const user = await getOneUserUseCase(id)
 

@@ -49,16 +49,19 @@ function _interop_require_wildcard(obj, nodeInterop) {
     }
     return newObj;
 }
-const server = new _elysia.Elysia().use((0, _cors.cors)()).use((0, _swagger.swagger)()).get('/', ()=>'API is running 🚀');
 const routesPath = (0, _path.join)(__dirname, 'routes');
-(0, _fs.readdirSync)(routesPath).forEach(async (file)=>{
-    if (file.endsWith('.routes.ts')) {
-        const routeModule = await Promise.resolve((0, _path.join)(routesPath, file)).then((p)=>/*#__PURE__*/ _interop_require_wildcard(require(p)));
-        server.use(routeModule.default);
+const routeFiles = (0, _fs.readdirSync)(routesPath);
+const server = new _elysia.Elysia().use((0, _cors.cors)()).use((0, _swagger.swagger)()).get('/', ()=>'API is running 🚀');
+(async ()=>{
+    for (const file of routeFiles){
+        if (file.endsWith('.routes.ts')) {
+            const { default: router } = await Promise.resolve((0, _path.join)(routesPath, file)).then((p)=>/*#__PURE__*/ _interop_require_wildcard(require(p)));
+            server.use(router);
+        }
     }
-});
-server.listen(_config.PORT, ({ url })=>{
-    console.log(`🦊 Elysia is running at ${url}`);
-});
+    server.listen(_config.PORT, ({ url })=>{
+        console.log(`🦊 Elysia is running at ${url}`);
+    });
+})();
 
 //# sourceMappingURL=index.js.map

@@ -9,7 +9,6 @@ Object.defineProperty(exports, "default", {
     }
 });
 const _elysia = require("elysia");
-const _getall = require("../services/users/get-all");
 const _getone = require("../services/users/get-one");
 const _create = require("../services/users/create");
 const _update = require("../services/users/update");
@@ -24,13 +23,15 @@ const router = new _elysia.Elysia({
         message: 'User created successfully',
         user
     };
-}, _User.UserSchema).use(_jwt.jwt).get('/', async ()=>{
-    const users = await (0, _getall.getAllUsersService)();
+}, _User.UserSchema).get('/', async ()=>{
     return {
-        message: 'Users found successfully',
-        users
+        message: 'Users found successfully'
     };
-}).get('/:id', async ({ params: { id } })=>{
+}).use(_jwt.jwt)/* .get('/', async () => {
+    const users = await getAllUsersService()
+
+    return { message: 'Users found successfully', users }
+  }) */ .get('/:id', async ({ params: { id } })=>{
     const user = await (0, _getone.getOneUserUseCase)(id);
     return {
         message: 'User found successfully',
