@@ -25,6 +25,10 @@ const ProductSchema = {
     body: _elysia.t.Object({
         name: _elysia.t.String(),
         description: _elysia.t.String(),
+        code: _elysia.t.String({
+            minLength: 6,
+            maxLength: 9
+        }),
         price: _elysia.t.Number(),
         company: _elysia.t.Object({
             id: _elysia.t.String(),
@@ -56,7 +60,10 @@ const SchemaModel = new _mongoose.Schema({
             required: true
         }
     },
-    qrCodeUrl: String,
+    code: {
+        type: String,
+        required: true
+    },
     views: {
         type: Number,
         default: 0

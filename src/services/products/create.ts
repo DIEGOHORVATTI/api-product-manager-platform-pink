@@ -3,7 +3,7 @@ import { IUser, User } from '@/models/User'
 import { error } from 'elysia'
 import { Product } from '../../models/Product'
 
-export const createUserService = async ({ email, password }: IUser) => {
+export const createProductService = async ({ email, password }: IUser) => {
   if (await Product.findOne({ email })) {
     throw error('Conflict', { error: 'User of this email already exists' })
   }

@@ -2,15 +2,15 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-Object.defineProperty(exports, "createUserService", {
+Object.defineProperty(exports, "createProductService", {
     enumerable: true,
     get: function() {
-        return createUserService;
+        return createProductService;
     }
 });
 const _elysia = require("elysia");
 const _Product = require("../../models/Product");
-const createUserService = async ({ email, password })=>{
+const createProductService = async ({ email, password })=>{
     if (await _Product.Product.findOne({
         email
     })) {

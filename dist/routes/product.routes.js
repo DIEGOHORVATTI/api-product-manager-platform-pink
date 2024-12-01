@@ -9,7 +9,6 @@ Object.defineProperty(exports, "default", {
     }
 });
 const _elysia = require("elysia");
-const _Product = require("../models/Product");
 const _jwt = require("../middlewares/jwt");
 const _products = require("../services/products");
 const router = new _elysia.Elysia().group('/products', (server)=>server.use(_jwt.jwt).get('/', async ()=>{
@@ -24,28 +23,25 @@ const router = new _elysia.Elysia().group('/products', (server)=>server.use(_jwt
             message: 'Product found successfully',
             product
         };
-    }).post('/', async ({ body, user })=>{
-        const product = await (0, _products.createProductService)(body, user);
-        return {
-            message: 'Product created successfully',
-            product
-        };
-    }, _Product.ProductSchema).put('/:id', async ({ params: { id }, body, user })=>{
-        const product = await (0, _products.updateProductService)(id, body, user);
-        return {
-            message: 'Product updated successfully',
-            product
-        };
-    }, _Product.ProductSchema).delete('/:id', async ({ params: { id }, user })=>{
-        await (0, _products.deleteProductService)(id, user);
+    })/* .post(
+      '/',
+      async ({ body, user }) => {
+        const product = await createProductService(body, user)
+        return { message: 'Product created successfully', product }
+      },
+      ProductSchema
+    )
+    .put(
+      '/:id',
+      async ({ params: { id }, body, user }) => {
+        const product = await updateProductService(id, body, user)
+        return { message: 'Product updated successfully', product }
+      },
+      ProductSchema
+    ) */ .delete('/:id', async ({ params: { id } })=>{
+        await (0, _products.deleteProductService)(id);
         return {
             message: 'Product deleted successfully'
-        };
-    }).post('/generate-qr/:id', async ({ params: { id } })=>{
-        const qrCode = await (0, _products.generateQRCodeService)(id);
-        return {
-            message: 'QR Code generated successfully',
-            qrCode
         };
     }));
 const _default = router;

@@ -2,15 +2,15 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-Object.defineProperty(exports, "deleteUserService", {
+Object.defineProperty(exports, "deleteProductService", {
     enumerable: true,
     get: function() {
-        return deleteUserService;
+        return deleteProductService;
     }
 });
 const _User = require("../../models/User");
 const _elysia = require("elysia");
-const deleteUserService = async (id)=>{
+const deleteProductService = async (id)=>{
     const domainExists = await _User.User.findOne({
         _id: id
     });

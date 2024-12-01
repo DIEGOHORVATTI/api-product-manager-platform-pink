@@ -1,13 +1,14 @@
 import { Elysia } from 'elysia'
+
 import { ProductSchema } from '@/models/Product'
 import { jwt } from '@/middlewares/jwt'
-import { 
+
+import {
   getAllProductsService,
   getOneProductService,
   createProductService,
   updateProductService,
-  deleteProductService,
-  generateQRCodeService
+  deleteProductService
 } from '@/services/products'
 
 const router = new Elysia().group('/products', server =>
@@ -21,7 +22,7 @@ const router = new Elysia().group('/products', server =>
       const product = await getOneProductService(id)
       return { message: 'Product found successfully', product }
     })
-    .post(
+    /* .post(
       '/',
       async ({ body, user }) => {
         const product = await createProductService(body, user)
@@ -36,14 +37,11 @@ const router = new Elysia().group('/products', server =>
         return { message: 'Product updated successfully', product }
       },
       ProductSchema
-    )
-    .delete('/:id', async ({ params: { id }, user }) => {
-      await deleteProductService(id, user)
+    ) */
+    .delete('/:id', async ({ params: { id } }) => {
+      await deleteProductService(id)
+
       return { message: 'Product deleted successfully' }
-    })
-    .post('/generate-qr/:id', async ({ params: { id } }) => {
-      const qrCode = await generateQRCodeService(id)
-      return { message: 'QR Code generated successfully', qrCode }
     })
 )
 

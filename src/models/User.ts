@@ -1,6 +1,6 @@
 import { t as Type } from 'elysia'
+import { Schema, Types } from 'mongoose'
 
-import { Schema } from 'mongoose'
 import { collectionsData } from '@/constants/config'
 
 import { setDefaultSettingsSchema } from '@/shared/set-default-settings-schema'
@@ -13,11 +13,13 @@ export const UserSchema = {
     email: Type.String({ format: 'email' }),
     password: Type.String({ minLength: 6 }),
     photo: Type.Optional(Type.String()),
-    company: Type.Object({
-      name: Type.String(),
-      cnpj: Type.String(),
-      about: Type.Optional(Type.String())
-    }),
+    company: Type.Array(
+      Type.Object({
+        id: Type.String(),
+        name: Type.String(),
+        cnpj: Type.String()
+      })
+    ),
     plan: Type.Enum({ Free: 'Free', Pro: 'Pro' })
   })
 }
@@ -53,17 +55,23 @@ const SchemaModel = new Schema<IUser>(
       default: ['user']
     },
     photo: String,
-    company: {
-      name: {
-        type: String,
-        required: true
-      },
-      cnpj: {
-        type: String,
-        required: true
-      },
-      about: String
-    },
+    company: [
+      {
+        id: {
+          type: Types.ObjectId,
+          required: true,
+          ref: collectionsData.Company.name
+        },
+        name: {
+          type: String,
+          required: true
+        },
+        cnpj: {
+          type: String,
+          required: true
+        }
+      }
+    ],
     plan: {
       type: String,
       enum: ['Free', 'Pro'],

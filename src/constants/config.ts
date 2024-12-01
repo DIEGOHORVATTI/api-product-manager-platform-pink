@@ -10,6 +10,10 @@ export const collectionsData = {
   Transaction: {
     name: 'Transaction',
     collection: 'transactions'
+  },
+  Company: {
+    name: 'Company',
+    collection: 'companies'
   }
 }
 

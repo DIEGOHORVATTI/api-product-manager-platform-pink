@@ -2,15 +2,15 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-Object.defineProperty(exports, "getAllUsersService", {
+Object.defineProperty(exports, "getAllProductsService", {
     enumerable: true,
     get: function() {
-        return getAllUsersService;
+        return getAllProductsService;
     }
 });
 const _User = require("../../models/User");
 const _elysia = require("elysia");
-const getAllUsersService = async ()=>{
+const getAllProductsService = async ()=>{
     const user = await _User.User.find().select('-password');
     if (!user) {
         throw (0, _elysia.error)('No Content', {

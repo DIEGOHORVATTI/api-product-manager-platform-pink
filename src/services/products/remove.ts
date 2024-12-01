@@ -1,7 +1,7 @@
 import { User } from '@/models/User'
 import { error } from 'elysia'
 
-export const deleteUserService = async (id: string) => {
+export const deleteProductService = async (id: string) => {
   const domainExists = await User.findOne({ _id: id })
 
   if (!domainExists) {

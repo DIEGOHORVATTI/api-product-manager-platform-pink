@@ -10,6 +10,7 @@ export const ProductSchema = {
   body: Type.Object({
     name: Type.String(),
     description: Type.String(),
+    code: Type.String({ minLength: 6, maxLength: 9 }),
     price: Type.Number(),
     company: Type.Object({
       id: Type.String(),
@@ -19,7 +20,6 @@ export const ProductSchema = {
 }
 
 export type IProduct = typeof ProductSchema.body.static & {
-  qrCodeUrl: string
   views: number
   clicks: number
 }
@@ -49,7 +49,10 @@ const SchemaModel = new Schema<IProduct>(
         required: true
       }
     },
-    qrCodeUrl: String,
+    code: {
+      type: String,
+      required: true
+    },
     views: {
       type: Number,
       default: 0

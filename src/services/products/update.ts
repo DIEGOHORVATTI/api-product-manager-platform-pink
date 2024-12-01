@@ -1,33 +1,22 @@
-import { IUser, User } from '@/models/User'
+import { IProduct, Product } from '@/models/Product'
 
 import { error } from 'elysia'
+import { IUser } from '../../models/User'
 
-export const updateUserService = async (id: string, { email, password }: IUser) => {
-  const user = await User.findById(id)
+export const updateProductService = async (id: string, body: IProduct, user: IUser) => {
+  const product = await Product.findById(id)
 
-  if (!user) {
-    throw error('Not Found', { error: 'User not found' })
+  if (!product) {
+    throw error(404, 'Product not found')
   }
 
-  if (email) {
-    const existingUser = await User.findOne({ email })
+  /* if (product.user.toString() !== user._id.toString()) {
+    throw error(403, 'You are not allowed to update this product')
+  } */
 
-    const isDifferentUser = existingUser?.id !== id
+  Object.assign(product, body)
 
-    if (isDifferentUser) {
-      throw error('Conflict', { error: 'User of this email already exists' })
-    }
+  await product.save()
 
-    user.email = email
-  }
-
-  if (password) {
-    user.password = password
-  }
-
-  await user?.save().catch(() => {
-    throw error('Internal Server Error', { error: 'Failed to update user' })
-  })
-
-  return user
+  return product
 }
