@@ -17,17 +17,15 @@ function _interop_require_default(obj) {
         default: obj
     };
 }
-const router = new _elysia.default({
-    prefix: '/auth'
-}).use(_jwtsettings.jwtSettings).post('/login', async ({ body, jwt })=>{
-    const user = await (0, _sign.signService)(body);
-    const token = await jwt.sign({
-        id: user.id
-    });
-    return {
-        token
-    };
-}, _User.UserSchema);
+const router = new _elysia.default().group('/auth', (server)=>server.use(_jwtsettings.jwtSettings).post('/login', async ({ body, jwt })=>{
+        const user = await (0, _sign.signService)(body);
+        const token = await jwt.sign({
+            id: user.id
+        });
+        return {
+            token
+        };
+    }, _User.UserSchema));
 const _default = router;
 
 //# sourceMappingURL=auth.routes.js.map
