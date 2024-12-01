@@ -12,6 +12,9 @@ _export(exports, {
     User: function() {
         return User;
     },
+    UserCredentialsSchema: function() {
+        return UserCredentialsSchema;
+    },
     UserSchema: function() {
         return UserSchema;
     }
@@ -21,16 +24,21 @@ const _mongoose = require("mongoose");
 const _config = require("../constants/config");
 const _setdefaultsettingsschema = require("../shared/set-default-settings-schema");
 const _connectiondb = require("../shared/connection-db");
+const UserCredentialsSchema = {
+    email: _elysia.t.String({
+        format: 'email'
+    }),
+    password: _elysia.t.String({
+        minLength: 6,
+        maxLength: 20,
+        pattern: '^[a-zA-Z0-9]*$'
+    })
+};
 const UserSchema = {
     body: _elysia.t.Object({
+        ...UserCredentialsSchema,
         name: _elysia.t.String(),
         surname: _elysia.t.String(),
-        email: _elysia.t.String({
-            format: 'email'
-        }),
-        password: _elysia.t.String({
-            minLength: 6
-        }),
         photo: _elysia.t.Optional(_elysia.t.String()),
         company: _elysia.t.Optional(_elysia.t.Array(_elysia.t.Object({
             id: _elysia.t.String(),

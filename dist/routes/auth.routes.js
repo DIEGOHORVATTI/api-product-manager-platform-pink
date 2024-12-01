@@ -21,17 +21,15 @@ const router = new _elysia.Elysia().group('/auth', (server)=>server.use(_jwtsett
         return {
             token
         };
-    }, _User.UserSchema).post('/recover-password', async ({ body: { email } })=>{
+    }, {
+        body: _elysia.t.Object(_User.UserCredentialsSchema)
+    }).post('/recover-password', async ({ body: { email } })=>{
         await (0, _recoverpassword.recoverPasswordService)(email);
         return {
             message: 'Recovery email sent successfully'
         };
     }, {
-        body: _elysia.t.Object({
-            email: _elysia.t.String({
-                format: 'email'
-            })
-        })
+        body: _elysia.t.Object(_User.UserCredentialsSchema.email)
     }));
 const _default = router;
 

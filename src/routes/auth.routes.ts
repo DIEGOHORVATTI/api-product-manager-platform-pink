@@ -1,6 +1,6 @@
 import { Elysia, t as Type } from 'elysia'
 
-import { UserSchema } from '@/models/User'
+import { UserCredentialsSchema } from '@/models/User'
 
 import { signService } from '@/services/auth/sign'
 import { recoverPasswordService } from '@/services/auth/recover-password'
@@ -19,7 +19,7 @@ const router = new Elysia().group('/auth', server =>
 
         return { token }
       },
-      UserSchema
+      { body: Type.Object(UserCredentialsSchema) }
     )
     .post(
       '/recover-password',
@@ -29,9 +29,7 @@ const router = new Elysia().group('/auth', server =>
         return { message: 'Recovery email sent successfully' }
       },
       {
-        body: Type.Object({
-          email: Type.String({ format: 'email' })
-        })
+        body: Type.Object(UserCredentialsSchema.email)
       }
     )
 )

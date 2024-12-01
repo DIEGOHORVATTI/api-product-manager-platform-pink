@@ -6,12 +6,16 @@ import { collectionsData } from '@/constants/config'
 import { setDefaultSettingsSchema } from '@/shared/set-default-settings-schema'
 import { connectDB } from '@/shared/connection-db'
 
+export const UserCredentialsSchema = {
+  email: Type.String({ format: 'email' }),
+  password: Type.String({ minLength: 6, maxLength: 20, pattern: '^[a-zA-Z0-9]*$' })
+}
+
 export const UserSchema = {
   body: Type.Object({
+    ...UserCredentialsSchema,
     name: Type.String(),
     surname: Type.String(),
-    email: Type.String({ format: 'email' }),
-    password: Type.String({ minLength: 6 }),
     photo: Type.Optional(Type.String()),
     company: Type.Optional(
       Type.Array(
