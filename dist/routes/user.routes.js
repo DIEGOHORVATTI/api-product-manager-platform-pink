@@ -9,13 +9,13 @@ Object.defineProperty(exports, "default", {
     }
 });
 const _elysia = require("elysia");
-const _create = require("../services/users/create");
+const _getall = require("../services/users/get-all");
 const _getone = require("../services/users/get-one");
+const _create = require("../services/users/create");
 const _update = require("../services/users/update");
 const _remove = require("../services/users/remove");
-const _jwt = require("../middlewares/jwt");
 const _User = require("../models/User");
-const _getall = require("../services/users/get-all");
+const _jwt = require("../middlewares/jwt");
 const router = new _elysia.Elysia({
     prefix: '/users'
 }).post('/', async ({ body })=>{
