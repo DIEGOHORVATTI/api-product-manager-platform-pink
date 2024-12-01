@@ -3,7 +3,6 @@ import { Elysia, t as Type } from 'elysia'
 import { UserSchema } from '@/models/User'
 
 import { signService } from '@/services/auth/sign'
-import { registerService } from '@/services/auth/register'
 import { recoverPasswordService } from '@/services/auth/recover-password'
 
 import { jwtSettings } from '@/shared/jwt-settings'
@@ -19,15 +18,6 @@ const router = new Elysia().group('/auth', server =>
         const token = await jwt.sign({ id: user.id })
 
         return { token }
-      },
-      UserSchema
-    )
-    .post(
-      '/register',
-      async ({ body }) => {
-        const user = await registerService(body)
-
-        return { message: 'User registered successfully', user }
       },
       UserSchema
     )

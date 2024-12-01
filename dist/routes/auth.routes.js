@@ -11,7 +11,6 @@ Object.defineProperty(exports, "default", {
 const _elysia = require("elysia");
 const _User = require("../models/User");
 const _sign = require("../services/auth/sign");
-const _register = require("../services/auth/register");
 const _recoverpassword = require("../services/auth/recover-password");
 const _jwtsettings = require("../shared/jwt-settings");
 const router = new _elysia.Elysia().group('/auth', (server)=>server.use(_jwtsettings.jwtSettings).post('/login', async ({ body, jwt })=>{
@@ -21,12 +20,6 @@ const router = new _elysia.Elysia().group('/auth', (server)=>server.use(_jwtsett
         });
         return {
             token
-        };
-    }, _User.UserSchema).post('/register', async ({ body })=>{
-        const user = await (0, _register.registerService)(body);
-        return {
-            message: 'User registered successfully',
-            user
         };
     }, _User.UserSchema).post('/recover-password', async ({ body: { email } })=>{
         await (0, _recoverpassword.recoverPasswordService)(email);
