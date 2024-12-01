@@ -15,7 +15,7 @@ const createProductService = async ({ email, password })=>{
         email
     })) {
         throw (0, _elysia.error)('Conflict', {
-            error: 'User of this email already exists'
+            error: 'Esse e-mail já está cadastrado'
         });
     }
     const product = new _Product.Product({
@@ -24,7 +24,7 @@ const createProductService = async ({ email, password })=>{
     });
     await product.save().catch(()=>{
         throw (0, _elysia.error)('Internal Server Error', {
-            error: 'Failed to create user'
+            error: 'Falha ao criar produto'
         });
     });
     return product;

@@ -15,19 +15,19 @@ export const jwt = new Elysia()
   .guard(bearerTokenGuard)
   .derive(async ({ headers: { authorization }, jwt }) => {
     if (!authorization) {
-      throw error('Unauthorized', { error: 'No token provided' })
+      throw error('Unauthorized', { error: 'Nenhum token fornecido' })
     }
 
     const token = authorization.slice('Bearer '.length)
     const decoded = await jwt.verify(token)
 
     if (!decoded) {
-      throw error('Unauthorized', { error: 'Invalid token payload' })
+      throw error('Unauthorized', { error: 'Token inválido' })
     }
 
     const user = await User.findById(decoded.id)
     if (!user) {
-      throw error('Unauthorized', { error: 'User not found' })
+      throw error('Unauthorized', { error: 'Usuário não encontrado' })
     }
 
     return { user }

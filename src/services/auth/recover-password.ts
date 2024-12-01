@@ -9,7 +9,7 @@ export const recoverPasswordService = async (email: string) => {
   const user = await User.findOne({ email })
 
   if (!user) {
-    throw error('Not Found', { error: 'User not found' })
+    throw error('Not Found', { error: 'Usuário não encontrado' })
   }
 
   const resetToken = Math.random().toString(36).slice(-8)
@@ -33,11 +33,11 @@ export const recoverPasswordService = async (email: string) => {
     .sendMail({
       from: process.env.MAIL_USERNAME,
       to: email,
-      subject: 'Password Recovery',
-      text: `Your password reset token is: ${resetToken}. This token will expire in 1 hour.`
+      subject: 'Solicitação de redefinição de senha',
+      text: `Seu token de redefinição de senha é ${resetToken}`
     })
     .catch(() => {
-      throw error('Internal Server Error', { error: 'Failed to send recovery email' })
+      throw error('Internal Server Error', { error: 'Falha ao enviar e-mail' })
     })
 
   return true

@@ -14,7 +14,7 @@ const updateUserService = async (id, { email, password })=>{
     const user = await _User.User.findById(id);
     if (!user) {
         throw (0, _elysia.error)('Not Found', {
-            error: 'User not found'
+            error: 'Usuário não encontrado'
         });
     }
     if (email) {
@@ -24,7 +24,7 @@ const updateUserService = async (id, { email, password })=>{
         const isDifferentUser = existingUser?.id !== id;
         if (isDifferentUser) {
             throw (0, _elysia.error)('Conflict', {
-                error: 'User of this email already exists'
+                error: 'Esse e-mail já está em uso'
             });
         }
         user.email = email;
@@ -34,7 +34,7 @@ const updateUserService = async (id, { email, password })=>{
     }
     await user?.save().catch(()=>{
         throw (0, _elysia.error)('Internal Server Error', {
-            error: 'Failed to update user'
+            error: 'Falha ao atualizar usuário'
         });
     });
     return user;

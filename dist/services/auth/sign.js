@@ -16,13 +16,13 @@ const signService = async ({ email, password })=>{
     });
     if (!user) {
         throw (0, _elysia.error)('Unauthorized', {
-            error: 'Email not registered'
+            error: 'E-mail não cadastrado'
         });
     }
     const isValidPassword = user.comparePassword?.(password);
     if (!isValidPassword) {
         throw (0, _elysia.error)('Unauthorized', {
-            error: 'Invalid credentials'
+            error: 'Senha inválida'
         });
     }
     return user;

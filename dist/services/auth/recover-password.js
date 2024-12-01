@@ -23,7 +23,7 @@ const recoverPasswordService = async (email)=>{
     });
     if (!user) {
         throw (0, _elysia.error)('Not Found', {
-            error: 'User not found'
+            error: 'Usuário não encontrado'
         });
     }
     const resetToken = Math.random().toString(36).slice(-8);
@@ -44,11 +44,11 @@ const recoverPasswordService = async (email)=>{
     await transporter.sendMail({
         from: process.env.MAIL_USERNAME,
         to: email,
-        subject: 'Password Recovery',
-        text: `Your password reset token is: ${resetToken}. This token will expire in 1 hour.`
+        subject: 'Solicitação de redefinição de senha',
+        text: `Seu token de redefinição de senha é ${resetToken}`
     }).catch(()=>{
         throw (0, _elysia.error)('Internal Server Error', {
-            error: 'Failed to send recovery email'
+            error: 'Falha ao enviar e-mail'
         });
     });
     return true;

@@ -10,21 +10,18 @@ Object.defineProperty(exports, "createUserService", {
 });
 const _User = require("../../models/User");
 const _elysia = require("elysia");
-const createUserService = async ({ email, password })=>{
+const createUserService = async (data)=>{
     if (await _User.User.findOne({
-        email
+        email: data.email
     })) {
         throw (0, _elysia.error)('Conflict', {
-            error: 'User of this email already exists'
+            error: 'O usuário deste e-mail já existe'
         });
     }
-    const user = new _User.User({
-        email,
-        password
-    });
+    const user = new _User.User(data);
     await user.save().catch(()=>{
         throw (0, _elysia.error)('Internal Server Error', {
-            error: 'Failed to create user'
+            error: 'Falha ao criar usuário'
         });
     });
     return user;

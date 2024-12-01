@@ -6,13 +6,13 @@ export const signService = async ({ email, password }: IUser) => {
   const user = await User.findOne({ email })
 
   if (!user) {
-    throw error('Unauthorized', { error: 'Email not registered' })
+    throw error('Unauthorized', { error: 'E-mail não cadastrado' })
   }
 
   const isValidPassword = user.comparePassword?.(password)
 
   if (!isValidPassword) {
-    throw error('Unauthorized', { error: 'Invalid credentials' })
+    throw error('Unauthorized', { error: 'Senha inválida' })
   }
 
   return user
