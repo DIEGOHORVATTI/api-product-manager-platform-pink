@@ -15,15 +15,6 @@ _export(exports, {
     JWT_EXP: function() {
         return JWT_EXP;
     },
-    JWT_REFRESH_EXP: function() {
-        return JWT_REFRESH_EXP;
-    },
-    JWT_REFRESH_NAME: function() {
-        return JWT_REFRESH_NAME;
-    },
-    JWT_REFRESH_SECRET: function() {
-        return JWT_REFRESH_SECRET;
-    },
     JWT_SECRET: function() {
         return JWT_SECRET;
     },
@@ -39,6 +30,12 @@ _export(exports, {
     PORT: function() {
         return PORT;
     },
+    STRIPE_SECRET_KEY: function() {
+        return STRIPE_SECRET_KEY;
+    },
+    STRIPE_WEBHOOK_SECRET: function() {
+        return STRIPE_WEBHOOK_SECRET;
+    },
     collectionsData: function() {
         return collectionsData;
     }
@@ -47,6 +44,14 @@ const collectionsData = {
     User: {
         name: 'User',
         collection: 'users'
+    },
+    Product: {
+        name: 'Product',
+        collection: 'products'
+    },
+    Transaction: {
+        name: 'Transaction',
+        collection: 'transactions'
     }
 };
 const HOST_API = process.env.HOST_API || '';
@@ -55,9 +60,8 @@ const MONGO_URL = process.env.MONGO_URI || '';
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 const JWT_EXP = process.env.JWT_EXP || '7d';
-const JWT_REFRESH_EXP = process.env.JWT_REFRESH_EXP || '30d';
-const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'refresh';
-const JWT_REFRESH_NAME = process.env.JWT_REFRESH_NAME || 'refresh';
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || '';
+const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
 const NODE_ENV = process.env.NODE_ENV;
 
 //# sourceMappingURL=config.js.map

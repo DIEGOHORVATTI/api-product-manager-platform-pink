@@ -8,18 +8,35 @@ import { connectDB } from '@/shared/connection-db'
 
 export const UserSchema = {
   body: Type.Object({
+    name: Type.String(),
+    surname: Type.String(),
     email: Type.String({ format: 'email' }),
-    password: Type.String({ minLength: 6, maxLength: 20, pattern: '^[a-zA-Z0-9]*$' })
+    password: Type.String({ minLength: 6 }),
+    photo: Type.Optional(Type.String()),
+    company: Type.Object({
+      name: Type.String(),
+      cnpj: Type.String(),
+      about: Type.Optional(Type.String())
+    }),
+    plan: Type.Enum({ Free: 'Free', Pro: 'Pro' })
   })
 }
 
 export type IUser = typeof UserSchema.body.static & {
-  token?: string
-  comparePassword?: (password: string) => boolean
+  permissions?: string[]
+  comparePassword?: (password: string) => Promise<boolean>
 }
 
 const SchemaModel = new Schema<IUser>(
   {
+    name: {
+      type: String,
+      required: true
+    },
+    surname: {
+      type: String,
+      required: true
+    },
     email: {
       type: String,
       required: true,
@@ -28,6 +45,27 @@ const SchemaModel = new Schema<IUser>(
     password: {
       type: String,
       required: true
+    },
+    permissions: {
+      type: [String],
+      default: ['user']
+    },
+    photo: String,
+    company: {
+      name: {
+        type: String,
+        required: true
+      },
+      cnpj: {
+        type: String,
+        required: true
+      },
+      about: String
+    },
+    plan: {
+      type: String,
+      enum: ['Free', 'Pro'],
+      default: 'Free'
     }
   },
   {

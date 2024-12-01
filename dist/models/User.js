@@ -23,17 +23,35 @@ const _setdefaultsettingsschema = require("../shared/set-default-settings-schema
 const _connectiondb = require("../shared/connection-db");
 const UserSchema = {
     body: _elysia.t.Object({
+        name: _elysia.t.String(),
+        surname: _elysia.t.String(),
         email: _elysia.t.String({
             format: 'email'
         }),
         password: _elysia.t.String({
-            minLength: 6,
-            maxLength: 20,
-            pattern: '^[a-zA-Z0-9]*$'
+            minLength: 6
+        }),
+        photo: _elysia.t.Optional(_elysia.t.String()),
+        company: _elysia.t.Object({
+            name: _elysia.t.String(),
+            cnpj: _elysia.t.String(),
+            about: _elysia.t.Optional(_elysia.t.String())
+        }),
+        plan: _elysia.t.Enum({
+            Free: 'Free',
+            Pro: 'Pro'
         })
     })
 };
 const SchemaModel = new _mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    surname: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true,
@@ -42,6 +60,34 @@ const SchemaModel = new _mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    permissions: {
+        type: [
+            String
+        ],
+        default: [
+            'user'
+        ]
+    },
+    photo: String,
+    company: {
+        name: {
+            type: String,
+            required: true
+        },
+        cnpj: {
+            type: String,
+            required: true
+        },
+        about: String
+    },
+    plan: {
+        type: String,
+        enum: [
+            'Free',
+            'Pro'
+        ],
+        default: 'Free'
     }
 }, {
     timestamps: true,
