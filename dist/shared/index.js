@@ -5,7 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 _export_star(require("./connection-db"), exports);
 _export_star(require("./set-default-settings-schema"), exports);
 _export_star(require("./jwt-settings"), exports);
-_export_star(require("./hashing-password"), exports);
 function _export_star(from, to) {
     Object.keys(from).forEach(function(k) {
         if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k)) {

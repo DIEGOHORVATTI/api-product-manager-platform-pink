@@ -1,7 +1,7 @@
 import { IUser, User } from '@/models/User'
 import { error } from 'elysia'
 
-export const createUserService = async (data: IUser) => {
+export const createUserService = async (data: Omit<IUser, 'hashPassword' | 'comparePassword'>) => {
   const existingUser = await User.findOne({ email: data.email })
 
   if (existingUser) {
@@ -9,14 +9,7 @@ export const createUserService = async (data: IUser) => {
   }
 
   const userInstance = new User(data)
-
-  if (userInstance.password) {
-    try {
-      userInstance.password = await Bun.password.hash(userInstance.password)
-    } catch (err) {
-      throw error('Internal Server Error', { error: 'Falha ao processar a senha' })
-    }
-  }
+  userInstance.password = await userInstance.hashPassword()
 
   await userInstance.save().catch(err => {
     throw error('Internal Server Error', {

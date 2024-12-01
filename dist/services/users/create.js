@@ -20,15 +20,7 @@ const createUserService = async (data)=>{
         });
     }
     const userInstance = new _User.User(data);
-    if (userInstance.password) {
-        try {
-            userInstance.password = await Bun.password.hash(userInstance.password);
-        } catch (err) {
-            throw (0, _elysia.error)('Internal Server Error', {
-                error: 'Falha ao processar a senha'
-            });
-        }
-    }
+    userInstance.password = await userInstance.hashPassword();
     await userInstance.save().catch((err)=>{
         throw (0, _elysia.error)('Internal Server Error', {
             error: 'Falha ao criar usuário',

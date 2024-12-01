@@ -19,7 +19,7 @@ const signService = async ({ email, password })=>{
             error: 'E-mail não cadastrado'
         });
     }
-    const isValidPassword = user.comparePassword?.(password);
+    const isValidPassword = user.comparePassword(password);
     if (!isValidPassword) {
         throw (0, _elysia.error)('Unauthorized', {
             error: 'Senha inválida'

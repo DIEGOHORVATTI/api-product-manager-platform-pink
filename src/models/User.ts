@@ -27,9 +27,9 @@ export const UserSchema = {
 }
 
 export type IUser = typeof UserSchema.body.static & {
+  comparePassword: (password: string) => Promise<boolean>
+  hashPassword: (this: IUser) => Promise<string>
   permissions?: string[]
-  comparePassword?: (password: string) => Promise<boolean>
-  hashPassword?: (this: IUser) => Promise<string>
   resetPasswordToken?: string
   resetPasswordExpires?: Date
 }
