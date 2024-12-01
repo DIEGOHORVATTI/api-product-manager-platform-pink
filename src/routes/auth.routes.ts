@@ -10,7 +10,7 @@ const router = new Elysia({ prefix: '/auth' }).use(jwtSettings).post(
   async ({ body, jwt }) => {
     const user = await signService(body)
 
-    const token = await jwt.sign({ id: user?.id })
+    const token = await jwt.sign({ id: user.id })
 
     return { token }
   },

@@ -22,7 +22,7 @@ const router = new _elysia.default({
 }).use(_jwtsettings.jwtSettings).post('/login', async ({ body, jwt })=>{
     const user = await (0, _sign.signService)(body);
     const token = await jwt.sign({
-        id: user?.id
+        id: user.id
     });
     return {
         token
