@@ -1,19 +1,31 @@
 import { IUser, User } from '@/models/User'
-
 import { error } from 'elysia'
 
 export const createUserService = async (data: IUser) => {
-  if (await User.findOne({ email: data.email })) {
-    throw error('Conflict', { error: 'O usuário deste e-mail já existe' })
+  const existingUser = await User.findOne({ email: data.email })
+
+  if (existingUser) {
+    throw error('Conflict', { error: 'O usuário com este e-mail já existe' })
   }
 
-  const newUser = new User(data)
+  const userInstance = new User(data)
 
-  await newUser.save().catch(() => {
-    throw error('Internal Server Error', { error: 'Falha ao criar usuário' })
+  if (userInstance.password) {
+    try {
+      userInstance.password = await Bun.password.hash(userInstance.password)
+    } catch (err) {
+      throw error('Internal Server Error', { error: 'Falha ao processar a senha' })
+    }
+  }
+
+  await userInstance.save().catch(err => {
+    throw error('Internal Server Error', {
+      error: 'Falha ao criar usuário',
+      details: err.message
+    })
   })
 
-  const { password, ...user } = newUser.toObject()
+  const { password, ...user } = userInstance.toObject()
 
   return { user }
 }

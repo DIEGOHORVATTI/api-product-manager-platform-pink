@@ -29,6 +29,7 @@ export const UserSchema = {
 export type IUser = typeof UserSchema.body.static & {
   permissions?: string[]
   comparePassword?: (password: string) => Promise<boolean>
+  hashPassword?: (this: IUser) => Promise<string>
   resetPasswordToken?: string
   resetPasswordExpires?: Date
 }
@@ -93,6 +94,14 @@ setDefaultSettingsSchema(SchemaModel)
 
 SchemaModel.methods.comparePassword = function (this: IUser, password: string) {
   return Bun.password.verify(password, this.password)
+}
+
+SchemaModel.methods.hashPassword = function (this: IUser) {
+  return Bun.password.hash(this.password, {
+    algorithm: 'argon2id',
+    memoryCost: 65536, // 64MB
+    timeCost: 2
+  })
 }
 
 export const User = connectDB.model<IUser>(collectionsData.User.name, SchemaModel)

@@ -11,20 +11,31 @@ Object.defineProperty(exports, "createUserService", {
 const _User = require("../../models/User");
 const _elysia = require("elysia");
 const createUserService = async (data)=>{
-    if (await _User.User.findOne({
+    const existingUser = await _User.User.findOne({
         email: data.email
-    })) {
+    });
+    if (existingUser) {
         throw (0, _elysia.error)('Conflict', {
-            error: 'O usuário deste e-mail já existe'
+            error: 'O usuário com este e-mail já existe'
         });
     }
-    const newUser = new _User.User(data);
-    await newUser.save().catch(()=>{
+    const userInstance = new _User.User(data);
+    if (userInstance.password) {
+        try {
+            userInstance.password = await Bun.password.hash(userInstance.password);
+        } catch (err) {
+            throw (0, _elysia.error)('Internal Server Error', {
+                error: 'Falha ao processar a senha'
+            });
+        }
+    }
+    await userInstance.save().catch((err)=>{
         throw (0, _elysia.error)('Internal Server Error', {
-            error: 'Falha ao criar usuário'
+            error: 'Falha ao criar usuário',
+            details: err.message
         });
     });
-    const { password, ...user } = newUser.toObject();
+    const { password, ...user } = userInstance.toObject();
     return {
         user
     };

@@ -106,6 +106,13 @@ const SchemaModel = new _mongoose.Schema({
 SchemaModel.methods.comparePassword = function(password) {
     return Bun.password.verify(password, this.password);
 };
+SchemaModel.methods.hashPassword = function() {
+    return Bun.password.hash(this.password, {
+        algorithm: 'argon2id',
+        memoryCost: 65536,
+        timeCost: 2
+    });
+};
 const User = _connectiondb.connectDB.model(_config.collectionsData.User.name, SchemaModel);
 
 //# sourceMappingURL=User.js.map
