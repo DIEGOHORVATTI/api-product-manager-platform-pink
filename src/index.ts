@@ -4,7 +4,7 @@ import { swagger } from '@elysiajs/swagger'
 
 import { PORT } from '@/constants/config'
 
-const server = new Elysia()
+export const server = new Elysia()
   .use(cors())
   .use(swagger())
   .get('/', () => 'API is running 🚀')

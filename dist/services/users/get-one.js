@@ -11,7 +11,7 @@ Object.defineProperty(exports, "getOneUserUseCase", {
 const _User = require("../../models/User");
 const _elysia = require("elysia");
 const getOneUserUseCase = async (useId)=>{
-    const user = await _User.User.findById(useId).select('-password');
+    const user = await _User.User.findById(useId);
     if (!user) {
         (0, _elysia.error)(404, 'User not found');
     }

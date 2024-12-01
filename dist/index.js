@@ -2,6 +2,12 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+Object.defineProperty(exports, "server", {
+    enumerable: true,
+    get: function() {
+        return server;
+    }
+});
 const _elysia = require("elysia");
 const _cors = require("@elysiajs/cors");
 const _swagger = require("@elysiajs/swagger");

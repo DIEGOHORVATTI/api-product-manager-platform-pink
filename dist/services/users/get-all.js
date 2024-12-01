@@ -11,7 +11,7 @@ Object.defineProperty(exports, "getAllUsersService", {
 const _User = require("../../models/User");
 const _elysia = require("elysia");
 const getAllUsersService = async ()=>{
-    const user = await _User.User.find().select('-password');
+    const user = await _User.User.find();
     if (!user) {
         throw (0, _elysia.error)('No Content', 'User not found');
     }

@@ -15,15 +15,15 @@ const bearerTokenGuard = {
 export const jwt = new Elysia()
   .use(jwtSettings)
   .guard(bearerTokenGuard)
-  .derive(async ({ headers: { authorization }, jwt }) => {
-    const token = authorization.slice('Bearer '.length)
-
+  .resolve(({ headers: { authorization } }) => ({ token: authorization.slice('Bearer '.length) }))
+  .derive(async ({ token, jwt }) => {
     const decoded = await jwt.verify(token)
+
     if (!decoded) {
       throw error('Unauthorized', 'Invalid token payload')
     }
 
-    const user = await User.findById(decoded.id).select('-password')
+    const user = await User.findById(decoded.id)
     if (!user) {
       throw error('Unauthorized', 'User not found')
     }
