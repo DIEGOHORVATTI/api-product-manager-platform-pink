@@ -1,25 +1,28 @@
 import { error } from 'elysia'
-
 import { IProduct, Product } from '@/models/Product'
+import { IUser } from '@/models/User'
 
-export const createProductService = async (data: IProduct) => {
-  const existingUser = await User.findOne({ email: data.email })
+export const createProductService = async (data: IProduct, user: IUser) => {
+  const existingProduct = await Product.findOne({ code: data.code })
 
-  if (existingUser) {
-    throw error('Conflict', { error: 'O usuário com este e-mail já existe' })
+  if (existingProduct) {
+    throw error('Conflict', { error: 'Já existe um produto com este código' })
   }
 
-  const userInstance = new User(data)
-  userInstance.password = await userInstance.hashPassword()
+  const product = new Product({
+    ...data,
+    company: {
+      id: user.company?.[0]?.id,
+      name: user.company?.[0]?.name
+    }
+  })
 
-  await userInstance.save().catch(err => {
+  await product.save().catch(err => {
     throw error('Internal Server Error', {
-      error: 'Falha ao criar usuário',
+      error: 'Falha ao criar produto',
       details: err.message
     })
   })
 
-  const { password, ...user } = userInstance.toObject()
-
-  return { user }
+  return product
 }

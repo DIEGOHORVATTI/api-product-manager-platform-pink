@@ -1,13 +1,12 @@
-import { User } from '@/models/User'
-
+import { Product } from '@/models/Product'
 import { error } from 'elysia'
 
-export const getOneProductService = async (useId: string) => {
-  const user = await User.findById(useId).select('-password')
+export const getOneProductService = async (id: string) => {
+  const product = await Product.findById(id)
 
-  if (!user) {
-    error('Not Found', { error: 'User not found' })
+  if (!product) {
+    throw error('Not Found', { error: 'Produto não encontrado' })
   }
 
-  return user
+  return product
 }
