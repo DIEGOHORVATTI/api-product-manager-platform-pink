@@ -30,5 +30,9 @@
     "lint:fix": "eslint --fix --ext .ts,.tsx .",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "update-version": "git add . && git push"
-  }
+  },
+  "pre-commit": [
+    "build",
+    "update-version"
+  ]
 }
