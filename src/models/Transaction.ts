@@ -11,7 +11,13 @@ export const TransactionSchema = {
     plan: Type.Enum({ Free: 'Free', Pro: 'Pro' }),
     paymentMethod: Type.Enum({ pix: 'pix', credit_card: 'credit_card' }),
     status: Type.Enum({ pending: 'pending', completed: 'completed', failed: 'failed' }),
-    amount: Type.Number()
+    amount: Type.Number(),
+    stripePaymentIntent: Type.Optional(
+      Type.Object({
+        id: Type.String(),
+        clientSecret: Type.String()
+      })
+    )
   })
 }
 
@@ -44,6 +50,10 @@ const SchemaModel = new Schema<ITransaction>(
     amount: {
       type: Number,
       required: true
+    },
+    stripePaymentIntent: {
+      id: String,
+      clientSecret: String
     },
     paymentDate: {
       type: Date,
