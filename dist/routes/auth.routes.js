@@ -29,7 +29,9 @@ const router = new _elysia.Elysia().group('/auth', (server)=>server.use(_jwtsett
             message: 'Recovery email sent successfully'
         };
     }, {
-        body: _elysia.t.Object(_User.UserCredentialsSchema.email)
+        body: _elysia.t.Object({
+            email: _User.UserCredentialsSchema.email
+        })
     }));
 const _default = router;
 

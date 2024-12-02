@@ -29,7 +29,7 @@ const router = new Elysia().group('/auth', server =>
         return { message: 'Recovery email sent successfully' }
       },
       {
-        body: Type.Object(UserCredentialsSchema.email)
+        body: Type.Object({ email: UserCredentialsSchema.email })
       }
     )
 )

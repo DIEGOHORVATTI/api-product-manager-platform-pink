@@ -9,7 +9,7 @@ export const signService = async ({ email, password }: Pick<IUser, 'email' | 'pa
     throw error('Unauthorized', { error: 'E-mail não cadastrado' })
   }
 
-  const isValidPassword = user.comparePassword(password)
+  const isValidPassword = await user.comparePassword(password)
 
   if (!isValidPassword) {
     throw error('Unauthorized', { error: 'Senha inválida' })
