@@ -1,12 +1,6 @@
 import { Elysia } from 'elysia'
 
-import {
-  getAllUsersService,
-  getOneUserUseCase,
-  createUserService,
-  updateUserService,
-  deleteUserService
-} from '@/services/users'
+import { getOneUserUseCase, createUserService, updateUserService, deleteUserService } from '@/services/users'
 
 import { UserSchema } from '@/models/User'
 import { jwt } from '@/middlewares/jwt'
@@ -23,13 +17,6 @@ const router = new Elysia().group('/users', server =>
       UserSchema
     )
     .use(jwt)
-    /* ---------REMOVER--------- */
-    .get('/', async () => {
-      const { users } = await getAllUsersService()
-
-      return { message: 'Usuários encontrados com sucesso', users }
-    })
-    /* ------------------------- */
     .get('/:id', async ({ params: { id } }) => {
       const { user } = await getOneUserUseCase(id)
 

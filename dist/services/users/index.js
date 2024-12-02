@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-_export_star(require("./get-all"), exports);
 _export_star(require("./get-one"), exports);
 _export_star(require("./create"), exports);
 _export_star(require("./update"), exports);
