@@ -2,9 +2,7 @@ import { error } from 'elysia'
 
 import { IUser, User } from '@/models/User'
 
-type UserProfile = Omit<IUser, 'hashPassword' | 'comparePassword'>
-
-export const updateUserService = async (id: string, { email, password }: UserProfile) => {
+export const updateUserService = async (id: string, { email, password }: Pick<IUser, 'email' | 'password'>) => {
   const newUser = await User.findById(id)
 
   if (!newUser) {

@@ -1,5 +1,5 @@
 import { t as Type } from 'elysia'
-import { Schema } from 'mongoose'
+import { Document, Schema } from 'mongoose'
 
 import { collectionsData } from '@/constants/config'
 
@@ -31,13 +31,14 @@ export const UserSchema = {
   })
 }
 
-export type IUser = typeof UserSchema.body.static & {
-  comparePassword: (password: string) => Promise<boolean>
-  hashPassword: (this: IUser) => Promise<string>
-  permissions?: string[]
-  resetPasswordToken?: string
-  resetPasswordExpires?: Date
-}
+export type IUser = typeof UserSchema.body.static &
+  Document & {
+    comparePassword: (password: string) => Promise<boolean>
+    hashPassword: (this: IUser) => Promise<string>
+    permissions?: string[]
+    resetPasswordToken?: string
+    resetPasswordExpires?: Date
+  }
 
 const SchemaModel = new Schema<IUser>(
   {
