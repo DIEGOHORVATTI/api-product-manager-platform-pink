@@ -24,7 +24,7 @@ export const subscriptionSchema = {
 export const TransactionSchema = {
   body: Type.Object({
     ...subscriptionSchema,
-    userId: Type.String().objectId(),
+    userId: Type.String(),
     status: Type.Union(paymentStatusList.map(status => Type.Literal(status))),
     amount: Type.Number(),
     stripePaymentIntent: Type.Object({
@@ -34,9 +34,11 @@ export const TransactionSchema = {
   })
 }
 
-export type ITransaction = typeof TransactionSchema.body.static &
+type TransactionModel = typeof TransactionSchema.body.static
+export type ITransaction = Omit<TransactionModel, 'userId'> &
   Document & {
     paymentDate: Date
+    userId: Schema.Types.ObjectId
   }
 
 const SchemaModel = new Schema<ITransaction>(
