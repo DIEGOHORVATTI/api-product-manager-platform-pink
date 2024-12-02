@@ -1,29 +1,41 @@
 import { t as Type } from 'elysia'
-import { Schema, Types } from 'mongoose'
+import { Document, Schema, Types } from 'mongoose'
 
 import { collectionsData } from '@/constants/config'
-import { setDefaultSettingsSchema } from '@/shared/set-default-settings-schema'
-import { connectDB } from '@/shared/connection-db'
+
+import { setDefaultSettingsSchema, connectDB } from '@/shared'
+import Stripe from 'stripe'
+
+const paymentMethod: Array<Stripe.Subscription.PaymentSettings.PaymentMethodType | 'pix'> = [
+  'boleto',
+  'card',
+  'link',
+  'pix',
+  'paypal'
+] as const
+
+const planOptions = ['Free', 'Pro'] as const
+
+const paymentStatusList = ['pending', 'completed', 'failed'] as const
 
 export const TransactionSchema = {
   body: Type.Object({
     userId: Type.String().objectId(),
-    plan: Type.Enum({ Free: 'Free', Pro: 'Pro' }),
-    paymentMethod: Type.Enum({ pix: 'pix', credit_card: 'credit_card' }),
-    status: Type.Enum({ pending: 'pending', completed: 'completed', failed: 'failed' }),
+    plan: Type.Union(planOptions.map(plan => Type.Literal(plan))),
+    paymentMethod: Type.Union(paymentMethod.map(method => Type.Literal(method))),
+    status: Type.Union(paymentStatusList.map(status => Type.Literal(status))),
     amount: Type.Number(),
-    stripePaymentIntent: Type.Optional(
-      Type.Object({
-        id: Type.String(),
-        clientSecret: Type.String()
-      })
-    )
+    stripePaymentIntent: Type.Object({
+      id: Type.String(),
+      clientSecret: Type.String()
+    })
   })
 }
 
-export type ITransaction = typeof TransactionSchema.body.static & {
-  paymentDate: Date
-}
+export type ITransaction = typeof TransactionSchema.body.static &
+  Document & {
+    paymentDate: Date
+  }
 
 const SchemaModel = new Schema<ITransaction>(
   {
@@ -34,26 +46,30 @@ const SchemaModel = new Schema<ITransaction>(
     },
     plan: {
       type: String,
-      enum: ['Free', 'Pro'],
+      enum: planOptions,
       required: true
     },
     paymentMethod: {
       type: String,
-      enum: ['pix', 'credit_card'],
+      enum: paymentMethod,
       required: true
     },
     status: {
       type: String,
-      enum: ['pending', 'completed', 'failed'],
+      enum: paymentStatusList,
       required: true
     },
     amount: {
       type: Number,
-      required: true
+      required: true,
+      min: 0
     },
     stripePaymentIntent: {
-      id: String,
-      clientSecret: String
+      type: {
+        id: String,
+        clientSecret: String
+      },
+      required: true
     },
     paymentDate: {
       type: Date,
