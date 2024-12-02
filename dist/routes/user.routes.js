@@ -18,13 +18,13 @@ const router = new _elysia.Elysia().group('/users', (server)=>server.post('/', a
             message: 'Usuário criado com sucesso',
             user
         };
-    }, _User.UserSchema).use(_jwt.jwt).get('/', async ()=>{
+    }, _User.UserSchema).use(_jwt.jwt)/* ---------REMOVER--------- */ .get('/', async ()=>{
         const { users } = await (0, _users.getAllUsersService)();
         return {
             message: 'Usuários encontrados com sucesso',
             users
         };
-    }).get('/:id', async ({ params: { id } })=>{
+    })/* ------------------------- */ .get('/:id', async ({ params: { id } })=>{
         const { user } = await (0, _users.getOneUserUseCase)(id);
         return {
             message: 'Usuário encontrado com sucesso',

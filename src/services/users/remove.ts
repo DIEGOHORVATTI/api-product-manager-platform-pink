@@ -1,4 +1,5 @@
 import { User } from '@/models/User'
+
 import { error } from 'elysia'
 
 export const deleteUserService = async (id: string) => {

@@ -1,5 +1,5 @@
 import { t as Type } from 'elysia'
-import { Schema, Types } from 'mongoose'
+import { Schema } from 'mongoose'
 
 import { collectionsData } from '@/constants/config'
 
@@ -16,6 +16,7 @@ export const UserSchema = {
     ...UserCredentialsSchema,
     name: Type.String(),
     surname: Type.String(),
+    isArchived: Type.Optional(Type.Boolean()),
     photo: Type.Optional(Type.String()),
     company: Type.Optional(
       Type.Array(
@@ -60,6 +61,10 @@ const SchemaModel = new Schema<IUser>(
     permissions: {
       type: [String],
       default: ['user']
+    },
+    isArchived: {
+      type: Boolean,
+      default: false
     },
     photo: String,
     company: {

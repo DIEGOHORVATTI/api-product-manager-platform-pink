@@ -23,11 +23,13 @@ const router = new Elysia().group('/users', server =>
       UserSchema
     )
     .use(jwt)
+    /* ---------REMOVER--------- */
     .get('/', async () => {
       const { users } = await getAllUsersService()
 
       return { message: 'Usuários encontrados com sucesso', users }
     })
+    /* ------------------------- */
     .get('/:id', async ({ params: { id } }) => {
       const { user } = await getOneUserUseCase(id)
 

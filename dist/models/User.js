@@ -39,6 +39,7 @@ const UserSchema = {
         ...UserCredentialsSchema,
         name: _elysia.t.String(),
         surname: _elysia.t.String(),
+        isArchived: _elysia.t.Optional(_elysia.t.Boolean()),
         photo: _elysia.t.Optional(_elysia.t.String()),
         company: _elysia.t.Optional(_elysia.t.Array(_elysia.t.Object({
             id: _elysia.t.String(),
@@ -76,6 +77,10 @@ const SchemaModel = new _mongoose.Schema({
         default: [
             'user'
         ]
+    },
+    isArchived: {
+        type: Boolean,
+        default: false
     },
     photo: String,
     company: {
