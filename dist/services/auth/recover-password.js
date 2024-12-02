@@ -2,4 +2,3 @@
              <p>Clique no link abaixo para redefinir sua senha:</p>
              <a href="${resetLink}">Redefinir senha</a>
              <p>O link \xe9 v\xe1lido por 30 minutos.</p>`}).catch(err=>{throw(0,_elysia.error)("Internal Server Error",{error:"Falha ao enviar e-mail",details:err.message})});return{success:true,message:"E-mail enviado com sucesso"}};
-//# sourceMappingURL=recover-password.js.map

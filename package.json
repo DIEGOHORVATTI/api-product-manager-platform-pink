@@ -26,7 +26,7 @@
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "start": "bun run dist/index.js",
-    "build": "swc src -d dist --source-maps",
+    "build": "swc src -d dist",
     "lint:fix": "eslint --fix --ext .ts,.tsx .",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "update-version": "git add . && git push"
