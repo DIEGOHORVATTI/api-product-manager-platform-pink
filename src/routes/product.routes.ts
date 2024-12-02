@@ -16,17 +16,18 @@ const router = new Elysia().group('/products', server =>
     .use(jwt)
     .get('/', async () => {
       const products = await getAllProductsService()
-      return { message: 'Products found successfully', products }
+
+      return { message: 'Produtos encontrados com sucesso', products }
     })
     .get('/:id', async ({ params: { id } }) => {
       const product = await getOneProductService(id)
       return { message: 'Product found successfully', product }
     })
-    /* .post(
+    .post(
       '/',
       async ({ body, user }) => {
         const product = await createProductService(body, user)
-        return { message: 'Product created successfully', product }
+        return { message: 'Produto criado com sucesso', product }
       },
       ProductSchema
     )
@@ -34,14 +35,14 @@ const router = new Elysia().group('/products', server =>
       '/:id',
       async ({ params: { id }, body, user }) => {
         const product = await updateProductService(id, body, user)
-        return { message: 'Product updated successfully', product }
+        return { message: 'Produto atualizado com sucesso', product }
       },
       ProductSchema
-    ) */
+    )
     .delete('/:id', async ({ params: { id } }) => {
       await deleteProductService(id)
 
-      return { message: 'Product deleted successfully' }
+      return { message: 'Produto deletado com sucesso' }
     })
 )
 
