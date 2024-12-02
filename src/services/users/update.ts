@@ -1,11 +1,10 @@
-import { IUser, User } from '@/models/User'
-
 import { error } from 'elysia'
 
-export const updateUserService = async (
-  id: string,
-  { email, password }: Omit<IUser, 'hashPassword' | 'comparePassword'>
-) => {
+import { IUser, User } from '@/models/User'
+
+type UserProfile = Omit<IUser, 'hashPassword' | 'comparePassword'>
+
+export const updateUserService = async (id: string, { email, password }: UserProfile) => {
   const newUser = await User.findById(id)
 
   if (!newUser) {

@@ -1,5 +1,6 @@
-import { IUser, User } from '@/models/User'
 import { error } from 'elysia'
+
+import { IUser, User } from '@/models/User'
 
 export const createUserService = async (data: Omit<IUser, 'hashPassword' | 'comparePassword'>) => {
   const existingUser = await User.findOne({ email: data.email })

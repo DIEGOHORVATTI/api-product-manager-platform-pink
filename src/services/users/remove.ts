@@ -1,6 +1,6 @@
-import { User } from '@/models/User'
-
 import { error } from 'elysia'
+
+import { User } from '@/models/User'
 
 export const deleteUserService = async (id: string) => {
   const domainExists = await User.findOne({ _id: id })
