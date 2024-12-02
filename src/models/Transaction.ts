@@ -4,25 +4,27 @@ import { Document, Schema, Types } from 'mongoose'
 import { collectionsData } from '@/constants/config'
 
 import { setDefaultSettingsSchema, connectDB } from '@/shared'
+
 import Stripe from 'stripe'
 
-const paymentMethod: Array<Stripe.Subscription.PaymentSettings.PaymentMethodType | 'pix'> = [
+const paymentMethod: Stripe.SubscriptionCreateParams.PaymentSettings['payment_method_types'] = [
   'boleto',
   'card',
   'link',
-  'pix',
   'paypal'
 ] as const
-
 const planOptions = ['Free', 'Pro'] as const
-
 const paymentStatusList = ['pending', 'completed', 'failed'] as const
+
+export const subscriptionSchema = {
+  plan: Type.Union(planOptions.map(plan => Type.Literal(plan))),
+  paymentMethod: Type.Union(paymentMethod.map(method => Type.Literal(method)))
+}
 
 export const TransactionSchema = {
   body: Type.Object({
+    ...subscriptionSchema,
     userId: Type.String().objectId(),
-    plan: Type.Union(planOptions.map(plan => Type.Literal(plan))),
-    paymentMethod: Type.Union(paymentMethod.map(method => Type.Literal(method))),
     status: Type.Union(paymentStatusList.map(status => Type.Literal(status))),
     amount: Type.Number(),
     stripePaymentIntent: Type.Object({

@@ -1,16 +1,17 @@
 import { error } from 'elysia'
-import Stripe from 'stripe'
+
 import { STRIPE_SECRET_KEY } from '@/constants/config'
-import { IUser } from '@/models/User'
+
+import { ITransaction } from '@/models/Transaction'
+
+import Stripe from 'stripe'
 
 const stripe = new Stripe(STRIPE_SECRET_KEY)
 
-interface UpdateData {
-  plan: 'Free' | 'Pro'
-  paymentMethod: 'pix' | 'credit_card'
-}
-
-export const updateSubscriptionService = async (subscriptionId: string, data: UpdateData, user: IUser) => {
+export const updateSubscriptionService = async (
+  subscriptionId: string,
+  data: Pick<ITransaction, 'plan' | 'paymentMethod'>
+) => {
   try {
     const subscription = await stripe.subscriptions.retrieve(subscriptionId)
 
@@ -26,7 +27,7 @@ export const updateSubscriptionService = async (subscriptionId: string, data: Up
         }
       ],
       payment_settings: {
-        payment_method_types: [data.paymentMethod === 'credit_card' ? 'card' : 'pix']
+        payment_method_types: [data.paymentMethod]
       }
     })
 

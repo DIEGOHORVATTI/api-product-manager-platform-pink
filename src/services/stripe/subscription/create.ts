@@ -1,17 +1,14 @@
 import { error } from 'elysia'
 import Stripe from 'stripe'
+
 import { STRIPE_SECRET_KEY } from '@/constants/config'
+
 import { IUser } from '@/models/User'
-import { Transaction } from '@/models/Transaction'
+import { ITransaction, Transaction } from '@/models/Transaction'
 
 const stripe = new Stripe(STRIPE_SECRET_KEY)
 
-interface SubscriptionData {
-  plan: 'Free' | 'Pro'
-  paymentMethod: 'pix' | 'credit_card'
-}
-
-export const createSubscriptionService = async (data: SubscriptionData, user: IUser) => {
+export const createSubscriptionService = async (data: Pick<ITransaction, 'plan' | 'paymentMethod'>, user: IUser) => {
   try {
     const customer = await stripe.customers.create({
       email: user.email,
@@ -29,7 +26,7 @@ export const createSubscriptionService = async (data: SubscriptionData, user: IU
       ],
       payment_behavior: 'default_incomplete',
       payment_settings: {
-        payment_method_types: [data.paymentMethod === 'credit_card' ? 'card' : 'pix']
+        payment_method_types: [data.paymentMethod]
       },
       expand: ['latest_invoice.payment_intent']
     })
@@ -39,7 +36,7 @@ export const createSubscriptionService = async (data: SubscriptionData, user: IU
       plan: data.plan,
       paymentMethod: data.paymentMethod,
       status: 'pending',
-      amount: data.plan === 'Pro' ? 29.90 : 0,
+      amount: data.plan === 'Pro' ? 29.9 : 0,
       stripePaymentIntent: {
         id: subscription.id,
         clientSecret: subscription.latest_invoice?.payment_intent?.client_secret

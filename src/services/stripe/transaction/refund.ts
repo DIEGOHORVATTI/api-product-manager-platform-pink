@@ -1,6 +1,8 @@
 import { error } from 'elysia'
+
 import Stripe from 'stripe'
 import { STRIPE_SECRET_KEY } from '@/constants/config'
+
 import { Transaction } from '@/models/Transaction'
 import { IUser } from '@/models/User'
 
@@ -18,7 +20,7 @@ export const createRefundService = async (transactionId: string, user: IUser) =>
     }
 
     const refund = await stripe.refunds.create({
-      payment_intent: transaction.stripePaymentIntent.id
+      payment_intent: transaction.stripePaymentIntent?.id
     })
 
     transaction.status = 'refunded'
